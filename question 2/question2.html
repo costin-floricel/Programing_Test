@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Question 2</title>
+	<style>
+		body { margin: 0; padding: 20px 0; font-family: sans-serif; }
+		.container { box-sizing: border-box; width: 750px; margin: 0 auto; padding: 0 15px; }
+		@media (max-width: 767px) {
+			.container { width: 100%; }
+		}
+		.enclosure { border: 1px solid #333; position: relative; height: 100px; margin: 0 auto 15px; width: 400px; }
+		.enclosure.tall { height: 400px; }
+		.box { position: absolute; width: 100px; height: 100px; background-color: #3AA8E8; color: #fff; text-align: center; line-height: 100px; }
+		#box1 { top: 0; left: 0; }
+		#box2a { top: 0; left: 0; }
+		#box2b { top: 300px; left: 50%; margin-left: -50px; }
+		#box2c { top: 0; right: 0; }
+		#box3 { top: 0; left: 300px; }
+		#animate { display: block; margin: 0 auto; }
+	</style>
+</head>
+<body>
+	<main class="container">
+		<div class="enclosure">
+			<div id="box1" class="box">#box1</div>
+		</div>
+		<div class="enclosure tall">
+			<div id="box2a" class="box">#box2a</div>
+			<div id="box2b" class="box">#box2b</div>
+			<div id="box2c" class="box">#box2c</div>
+		</div>
+		<div class="enclosure">
+			<div id="box3" class="box">#box3</div>
+		</div>
+		
+		<div>
+			<button id="animate">Animate</button>
+		</div>
+		
+		<p>When the "Animate" button is clicked, animate the elements above in the following way:</p>
+		<ol>
+			<li>#box1 needs to move from left to right</li>
+			<li>After #box1 stops moving, the 3 boxes below need to move in the following way at the same time:
+				<ol>
+					<li>#box2a needs to move down (fast)</li>
+					<li>#box2b needs to move up (slow)</li>
+					<li>#box2c needs to move down (random speed between 200 and 1000)</li>
+				</ol>
+			</li>
+			<li>After the three boxes all stop moving, #box3 needs to move from right to left</li>
+			<li>After #box3 stops moving, show an alert message with the text "Done"</li>
+		</ol>
+		<p>You are free to alter any HTML, CSS or JS code on this page in order to solve the task. Please note that the jQuery library has been included in case you need it.</p>
+	</main>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script>
+
+		// Random number generator
+		let min = 200;
+		let max = 1000;
+		let randomNumber = randomNumberRange(min, max);
+		function randomNumberRange(min,max){
+   		 return Math.floor(Math.random()*(max-min+1))+min;
+		}
+
+
+		//jQuery Animations
+		$(document).ready(function() {
+    	$("#animate").on('click', function(){
+		$("#box1").animate({left: '300px'}, function(){
+			$("#box2a").animate({top: '300px'},"fast");
+			$("#box2b").animate({top: '0px'},"slow");
+			$("#box2c").animate({top: '300px'},{duration: randomNumber,
+				complete: function() {
+					$("#box3").animate({left: '0px'}, function(){
+						alert('Done');
+					});
+					
+ 				}
+ 			});	
+		});
+		
+		
+	});
+});
+
+	</script>
+</body>
+</html>
